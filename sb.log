@@ -1,0 +1,154 @@
+****WARNING: No need to export library once you have declared your library as plugin. Please cleanup src/TSNtuple/ntupler/BuildFile by removing the <export></export> section.
+>> Local Products Rules ..... started
+>> Local Products Rules ..... done
+>> Building CMSSW version CMSSW_9_2_14_patch2 ----
+------- copying files from src/L1Trigger/L1TGlobal/scripts -------
+>> copied files.txt
+>> copied replace.txt
+------- copying files from src/HLTrigger/Configuration/scripts -------
+>> copied import_utm.pl
+>> copied hltIntegrationTests
+>> copied edmPluginCoverage
+>> copied hltDumpStream
+>> copied hltCheckPrescaleModules
+>> copied hltConfigFromDB
+>> copied hltGetConfiguration
+>> copied hltCompareResults
+>> copied hltListPaths
+>> copied hltFindDuplicates
+>> copied extend_argparse.py
+>> Subsystem BigProducts built
+>> Creating project symlinks
+>> Entering Package L1Trigger/L1TGlobal
+>> Entering Package HLTrigger/Configuration
+>> Entering Package RecoMuon/L2MuonSeedGenerator
+>> Entering Package TSNtuple/Analyzer
+>> Entering Package TSNtuple/ntupler
+>> Leaving Package HLTrigger/Configuration
+>> Leaving Package TSNtuple/Analyzer
+>> Package TSNtuple/Analyzer built
+>> Package HLTrigger/Configuration built
+>> Subsystem HLTrigger built
+Entering library rule at L1Trigger/L1TGlobal
+Entering library rule at RecoMuon/L2MuonSeedGenerator
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/AlgorithmEvaluation.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/PrescalesVetosHelper.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/GlobalDefinitions.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/L1TGlobalUtil.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/CorrCondition.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/L1TGlobalUtilHelper.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/ExternalTemplate.cc 
+>> Building LCG reflex dict from header file src/L1Trigger/L1TGlobal/src/classes.h
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/CaloCondition.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/GlobalScales.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/CorrelationTemplate.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/CorrWithOverlapRemovalCondition.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/GlobalParamsHelper.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/TriggerMenu.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/ConditionEvaluation.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/MuonTemplate.cc 
+Selected class -> std::vector<MuonTemplate::ObjectParameter, std::allocator<MuonTemplate::ObjectParameter> > for ROOT: vector<MuonTemplate::ObjectParameter>
+Selected class -> std::vector<CaloTemplate::ObjectParameter, std::allocator<CaloTemplate::ObjectParameter> > for ROOT: vector<CaloTemplate::ObjectParameter>
+Selected class -> std::vector<MuonTemplate, std::allocator<MuonTemplate> > for ROOT: vector<MuonTemplate>
+Selected class -> std::vector<std::vector<MuonTemplate, std::allocator<MuonTemplate> >, std::allocator<std::vector<MuonTemplate, std::allocator<MuonTemplate> > > > for ROOT: vector<vector<MuonTemplate> >
+Selected class -> std::vector<CaloTemplate, std::allocator<CaloTemplate> > for ROOT: vector<CaloTemplate>
+Selected class -> std::vector<std::vector<CaloTemplate, std::allocator<CaloTemplate> >, std::allocator<std::vector<CaloTemplate, std::allocator<CaloTemplate> > > > for ROOT: vector<vector<CaloTemplate> >
+Selected class -> std::vector<CorrelationTemplate, std::allocator<CorrelationTemplate> > for ROOT: vector<CorrelationTemplate>
+Selected class -> std::vector<std::vector<CorrelationTemplate, std::allocator<CorrelationTemplate> >, std::allocator<std::vector<CorrelationTemplate, std::allocator<CorrelationTemplate> > > > for ROOT: vector<vector<CorrelationTemplate> >
+Selected class -> std::vector<CorrelationWithOverlapRemovalTemplate, std::allocator<CorrelationWithOverlapRemovalTemplate> > for ROOT: vector<CorrelationWithOverlapRemovalTemplate>
+Selected class -> std::vector<std::vector<CorrelationWithOverlapRemovalTemplate, std::allocator<CorrelationWithOverlapRemovalTemplate> >, std::allocator<std::vector<CorrelationWithOverlapRemovalTemplate, std::allocator<CorrelationWithOverlapRemovalTemplate> > > > for ROOT: vector<vector<CorrelationWithOverlapRemovalTemplate> >
+Selected class -> MuonTemplate for ROOT: MuonTemplate
+Selected class -> MuonTemplate::ObjectParameter for ROOT: MuonTemplate::ObjectParameter
+Selected class -> MuonTemplate::CorrelationParameter for ROOT: MuonTemplate::CorrelationParameter
+Selected class -> CaloTemplate for ROOT: CaloTemplate
+Selected class -> CaloTemplate::ObjectParameter for ROOT: CaloTemplate::ObjectParameter
+Selected class -> CaloTemplate::CorrelationParameter for ROOT: CaloTemplate::CorrelationParameter
+Selected class -> CorrelationTemplate for ROOT: CorrelationTemplate
+Selected class -> CorrelationTemplate::CorrelationParameter for ROOT: CorrelationTemplate::CorrelationParameter
+Selected class -> CorrelationWithOverlapRemovalTemplate for ROOT: CorrelationWithOverlapRemovalTemplate
+Selected class -> CorrelationWithOverlapRemovalTemplate::CorrelationWithOverlapRemovalParameter for ROOT: CorrelationWithOverlapRemovalTemplate::CorrelationWithOverlapRemovalParameter
+Selected class -> TriggerMenu for ROOT: TriggerMenu
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/EnergySumCondition.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/GlobalCondition.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/CaloTemplate.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/CorrelationWithOverlapRemovalTemplate.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/ExternalCondition.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/MuCondition.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/GlobalBoard.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/GlobalAlgorithm.cc 
+>> Compiling  /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/src/EnergySumTemplate.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/RecoMuon/L2MuonSeedGenerator/src/L2MuonSeedGenerator.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/RecoMuon/L2MuonSeedGenerator/src/L2MuonSeedGeneratorFromL1T.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/RecoMuon/L2MuonSeedGenerator/src/SealModule.cc 
+Entering library rule at TSNtuple/ntupler
+Entering library rule at src/L1Trigger/L1TGlobal/plugins
+>> Compiling LCG dictionary: tmp/slc6_amd64_gcc530/src/L1Trigger/L1TGlobal/src/L1TriggerL1TGlobal/a/L1TriggerL1TGlobal_xr.cc
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/TSNtuple/ntupler/src/ntupler.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/FakeInputProducer.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/L1TExtCondLegacyToStage2.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/StableParametersTrivialProducer.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/L1TGlobalProducer.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/L1TGlobalPrescalesVetosESProducer.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/GtInputDump.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/L1TExtCondProducer.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/L1TUtmTriggerMenuESProducer.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/BXVectorInputProducer.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/L1TGlobalSummary.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/TriggerMenuParser.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/GenToInputProducer.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/L1TUtmTriggerMenuDumper.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/GtRecordDump.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/L1TGlobalAnalyzer.cc 
+>> Compiling edm plugin /u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/L1Trigger/L1TGlobal/plugins/L1TGlobalPrescaler.cc 
+>> Building shared library tmp/slc6_amd64_gcc530/src/L1Trigger/L1TGlobal/src/L1TriggerL1TGlobal/libL1TriggerL1TGlobal.so
+>> Building edm plugin tmp/slc6_amd64_gcc530/src/RecoMuon/L2MuonSeedGenerator/src/RecoMuonL2MuonSeedGenerator/libRecoMuonL2MuonSeedGenerator.so
+Copying tmp/slc6_amd64_gcc530/src/L1Trigger/L1TGlobal/src/L1TriggerL1TGlobal/libL1TriggerL1TGlobal.so to productstore area:
+>> Checking EDM Class Version for src/L1Trigger/L1TGlobal/src/classes_def.xml in libL1TriggerL1TGlobal.so
+@@@@ ----> OK  EDM Class Version 
+>> Checking EDM Class Transients in libL1TriggerL1TGlobal.so
+Leaving library rule at RecoMuon/L2MuonSeedGenerator
+@@@@ Running edmWriteConfigs for RecoMuonL2MuonSeedGenerator
+@@@@ ----> OK  EDM Class Transients 
+L2MuonSeedGeneratorFromL1T
+Leaving library rule at L1Trigger/L1TGlobal
+>> Building edm plugin tmp/slc6_amd64_gcc530/src/TSNtuple/ntupler/src/TSNtuplentupler/libTSNtuplentupler.so
+--- Registered EDM Plugin: RecoMuonL2MuonSeedGenerator
+>> Leaving Package RecoMuon/L2MuonSeedGenerator
+>> Package RecoMuon/L2MuonSeedGenerator built
+>> Subsystem RecoMuon built
+>> Building edm plugin tmp/slc6_amd64_gcc530/src/L1Trigger/L1TGlobal/plugins/L1TriggerL1TGlobalPlugins/libL1TriggerL1TGlobalPlugins.so
+Leaving library rule at TSNtuple/ntupler
+@@@@ Running edmWriteConfigs for TSNtuplentupler
+--- Registered EDM Plugin: TSNtuplentupler
+>> Leaving Package TSNtuple/ntupler
+>> Package TSNtuple/ntupler built
+>> Subsystem TSNtuple built
+Leaving library rule at src/L1Trigger/L1TGlobal/plugins
+@@@@ Running edmWriteConfigs for L1TriggerL1TGlobalPlugins
+l1GtExtCondLegacyToStage2
+StableParametersTrivialProducer
+L1TGlobalProducer
+simGtExtFakeProd
+L1TGlobalSummary
+l1tGlobalPrescaler
+l1tGlobalPrescalerTargetColumn
+--- Registered EDM Plugin: L1TriggerL1TGlobalPlugins
+>> Leaving Package L1Trigger/L1TGlobal
+>> Package L1Trigger/L1TGlobal built
+>> Subsystem L1Trigger built
+gmake[1]: Entering directory '/u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2'
+>> Local Products Rules ..... started
+>> Local Products Rules ..... done
+@@@@ Refreshing Plugins:edmPluginRefresh
+>> Creating project symlinks
+>> Done python_symlink
+>> Compiling python modules src/HLTrigger/Configuration/python
+>> Compiling python modules cfipython/slc6_amd64_gcc530
+>> Compiling python modules python
+>> Compiling python modules src/RecoMuon/L2MuonSeedGenerator/python
+>> Compiling python modules src/L1Trigger/L1TGlobal/python
+>> Compiling python modules src/TSNtuple/ntupler/python
+>> Done generating edm plugin poisoned information
+>> Plugins of all types refreshed.
+>> All python modules compiled
+gmake[1]: Leaving directory '/u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2'
