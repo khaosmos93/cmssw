@@ -1,0 +1,25 @@
+L1T INFO:  L1REPACK:Full (intended for 2016 data) will unpack all L1T inputs, re-emulated (Stage-2), and pack uGT, uGMT, and Calo Stage-2 output.
+%MSG-i ThreadStreamSetup:  (NoModuleName) 19-Jan-2018 17:17:46 KST pre-events
+setting # threads 4
+setting # streams 4
+%MSG
+DQMStore: MultiThread option is enabled
+19-Jan-2018 17:18:55 KST  Initiating request to open file file:/u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/RecoMuon/L2MuonSeedGenerator/test/TestSample/304671_674/AOD/AEF86800-7FAF-E711-B173-02163E019DE8.root
+19-Jan-2018 17:18:59 KST  Successfully opened file file:/u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/RecoMuon/L2MuonSeedGenerator/test/TestSample/304671_674/AOD/AEF86800-7FAF-E711-B173-02163E019DE8.root
+19-Jan-2018 17:19:09 KST  Initiating request to open file file:/u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/RecoMuon/L2MuonSeedGenerator/test/TestSample/304671_674/RAW/06C8097A-D6AC-E711-B387-02163E011FF0.root
+19-Jan-2018 17:19:09 KST  Successfully opened file file:/u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/RecoMuon/L2MuonSeedGenerator/test/TestSample/304671_674/RAW/06C8097A-D6AC-E711-B387-02163E011FF0.root
+19-Jan-2018 17:19:12 KST  Closed file file:/u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/RecoMuon/L2MuonSeedGenerator/test/TestSample/304671_674/RAW/06C8097A-D6AC-E711-B387-02163E011FF0.root
+19-Jan-2018 17:19:12 KST  Closed file file:/u/user/msoh/MuonHLT/L2Seed2018/CMSSW_9_2_14_patch2/src/RecoMuon/L2MuonSeedGenerator/test/TestSample/304671_674/AOD/AEF86800-7FAF-E711-B173-02163E019DE8.root
+----- Begin Fatal Exception 19-Jan-2018 17:19:12 KST-----------------------
+An exception of category 'Configuration' occurred while
+   [0] Constructing the EventProcessor
+   [1] Validating configuration of module: class=L2MuonSeedGeneratorFromL1T label='hltL2MuonSeeds'
+Exception Message:
+Illegal parameters found in configuration.  The parameters are named:
+ 'MatchType'
+ 'Printout'
+ 'SortType'
+ 'UseNewLogic'
+You could be trying to use parameter names that are not
+allowed for this plugin or they could be misspelled.
+----- End Fatal Exception -------------------------------------------------

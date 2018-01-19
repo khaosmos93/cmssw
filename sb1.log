@@ -1,0 +1,55 @@
+Reading cached build data
+>> Local Products Rules ..... started
+>> Local Products Rules ..... done
+>> Building CMSSW version CMSSW_9_2_14_patch2 ----
+------- copying files from src/HLTrigger/Configuration/scripts -------
+>> copied hltIntegrationTests
+>> copied edmPluginCoverage
+------- copying files from src/L1Trigger/L1TGlobal/scripts -------
+>> Subsystem BigProducts built
+>> Entering Package RecoMuon/L2MuonSeedGenerator
+>> Creating project symlinks
+>> copied hltDumpStream
+>> Entering Package TSNtuple/Analyzer
+>> Entering Package TSNtuple/ntupler
+>> copied files.txt
+>> copied hltCheckPrescaleModules
+>> copied replace.txt
+>> Entering Package L1Trigger/L1TGlobal
+>> Entering Package HLTrigger/Configuration
+>> copied hltConfigFromDB
+>> copied import_utm.pl
+>> Leaving Package TSNtuple/Analyzer
+>> Leaving Package RecoMuon/L2MuonSeedGenerator
+>> Package TSNtuple/Analyzer built
+>> Package RecoMuon/L2MuonSeedGenerator built
+>> copied hltGetConfiguration
+>> Leaving Package TSNtuple/ntupler
+>> Leaving Package L1Trigger/L1TGlobal
+>> Subsystem RecoMuon built
+>> Package TSNtuple/ntupler built
+>> Package L1Trigger/L1TGlobal built
+>> Subsystem TSNtuple built
+>> Subsystem L1Trigger built
+>> copied hltCompareResults
+>> copied hltListPaths
+>> copied hltFindDuplicates
+>> copied extend_argparse.py
+>> Leaving Package HLTrigger/Configuration
+>> Package HLTrigger/Configuration built
+>> Subsystem HLTrigger built
+gmake[1]: Entering directory '/u/user/msoh/MuonHLT/L2Seed2018_v2/CMSSW_9_2_14_patch2'
+>> Local Products Rules ..... started
+>> Local Products Rules ..... done
+>> Done generating edm plugin poisoned information
+>> Creating project symlinks
+>> Plugins of all types refreshed.
+>> Done python_symlink
+>> Compiling python modules cfipython/slc6_amd64_gcc530
+>> Compiling python modules src/HLTrigger/Configuration/python
+>> Compiling python modules src/TSNtuple/ntupler/python
+>> Compiling python modules src/L1Trigger/L1TGlobal/python
+>> Compiling python modules python
+>> Compiling python modules src/RecoMuon/L2MuonSeedGenerator/python
+>> All python modules compiled
+gmake[1]: Leaving directory '/u/user/msoh/MuonHLT/L2Seed2018_v2/CMSSW_9_2_14_patch2'

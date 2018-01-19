@@ -4,7 +4,7 @@
 //-------------------------------------------------
 //
 /**  \class L2MuonSeedGeneratorFromL1T
- * 
+ *
  *   L2 muon seed generator:
  *   Transform the L1 informations in seeds for the
  *   L2 muon reconstruction
@@ -13,7 +13,7 @@
  *
  *   \author  A.Everett, R.Bellan
  *
- *    ORCA's author: N. Neumeister 
+ *    ORCA's author: N. Neumeister
  */
 //L2MuonSeedGeneratorFromL1T
 //--------------------------------------------------
@@ -21,7 +21,7 @@
 #include "FWCore/Framework/interface/stream/EDProducer.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 
-// Data Formats 
+// Data Formats
 #include "DataFormats/MuonSeed/interface/L2MuonTrajectorySeed.h"
 #include "DataFormats/MuonSeed/interface/L2MuonTrajectorySeedCollection.h"
 #include "DataFormats/TrajectoryState/interface/PTrajectoryStateOnDet.h"
@@ -44,9 +44,9 @@ class TrajectoryStateOnSurface;
 namespace edm {class ParameterSet; class Event; class EventSetup;}
 
 class L2MuonSeedGeneratorFromL1T : public edm::stream::EDProducer<> {
- 
+
  public:
-  
+
   /// Constructor
   explicit L2MuonSeedGeneratorFromL1T(const edm::ParameterSet&);
 
@@ -55,7 +55,7 @@ class L2MuonSeedGeneratorFromL1T : public edm::stream::EDProducer<> {
 
   static void fillDescriptions(edm::ConfigurationDescriptions & descriptions);
   virtual void produce(edm::Event&, const edm::EventSetup&) override;
-  
+
  private:
 
   edm::InputTag theSource;
@@ -77,15 +77,33 @@ class L2MuonSeedGeneratorFromL1T : public edm::stream::EDProducer<> {
   /// use central bx only muons
   bool centralBxOnly_;
 
+  /// run with new logic
+  bool useNewLogic;
+  bool printout;
+
+  // MatchType : 0 Min dR, 1 Higher Q, 2 All matched L1
+  int matchType;
+
+  // SortType : 0 not sort, 1 Pt, 2 Q and Pt
+  int sortType;
+
   /// the event setup proxy, it takes care the services update
-  MuonServiceProxy *theService;  
+  MuonServiceProxy *theService;
 
   MeasurementEstimator *theEstimator;
 
-  const TrajectorySeed* associateOfflineSeedToL1( edm::Handle<edm::View<TrajectorySeed> > &, 
-						  std::vector<int> &, 
-						  TrajectoryStateOnSurface &,
-						  double );
+  const TrajectorySeed* associateOfflineSeedToL1( edm::Handle<edm::View<TrajectorySeed> > &,
+              std::vector<int> &,
+              TrajectoryStateOnSurface &,
+              double );
+
+  bool NewAssociateOfflineSeedToL1( edm::Handle<edm::View<TrajectorySeed> > &,  //Min
+              //std::vector<int> & offseedMap,
+              std::vector< std::vector<double> > &,
+              TrajectoryStateOnSurface &,
+              unsigned int, //Min
+              std::vector< std::vector<const TrajectorySeed *> > &,
+              double );
 
 };
 
