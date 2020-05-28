@@ -11,4 +11,7 @@
 #include "DataFormats/Candidate/interface/CompositeCandidate.h"
 #include "DataFormats/Candidate/interface/CompositeCandidateFwd.h"
 
+#include "DataFormats/L1TCorrelator/interface/TkMuon.h"
+#include "DataFormats/L1TCorrelator/interface/TkMuonFwd.h"
+
 #include "DataFormats/Common/interface/Ref.h"
