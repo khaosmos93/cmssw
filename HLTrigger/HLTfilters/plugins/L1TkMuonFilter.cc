@@ -79,7 +79,7 @@ bool L1TkMuonFilter::hltFilter(edm::Event& iEvent,
     if (itkMuon->pt() >= min_Pt_) {
       ntrkmuon++;
       l1t::TkMuonRef ref = l1t::TkMuonRef(tkMuons, distance(atrkmuons, itkMuon));
-      //filterproduct.addObject(-79, ref);
+      filterproduct.addObject(-79, ref);
     }
   }
 
