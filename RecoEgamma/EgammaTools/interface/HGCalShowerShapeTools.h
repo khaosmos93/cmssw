@@ -52,7 +52,7 @@ class HGCalShowerShapeTools
 {
     private :
     
-    // Good to filter/compute/store this stuff beforehand as they are common to shower shape variables.
+    // Good to filter/compute/store this stuff beforehand as they are common to the shower shape variables.
     // No point in filtering, computing layer-wise centroids, etc. for each variable again and again.
     // Once intitialized, one can the calculate different variables one after another for a given object.
     // If a different set of preselections (E, ET, etc.) is required for a given object, then reinitialize using initPerObject(...).
