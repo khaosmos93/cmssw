@@ -72,7 +72,6 @@ void HGCalShowerShapeTools::setFilteredHitsAndFractions(
         float hitEfrac = hnf.second;
         
         int hitLayer = recHitTools_.getLayer(hitId);
-        //printf("Layer %d \n", hitLayer);
         
         if(hitLayer > nLayer_)
         {
@@ -89,25 +88,17 @@ void HGCalShowerShapeTools::setFilteredHitsAndFractions(
             continue;
         }
         
-        //printf("Stage 1. \n");
-        
         reco::PFRecHit recHit = *pfRecHitPtrMap_[hitId];
-        
-        //printf("Stage 2. \n");
         
         if(recHit.energy() < minHitE_)
         {
             continue;
         }
         
-        //printf("Stage 3. \n");
-        
         if(recHit.pt2() < minHitET2_)
         {
             continue;
         }
-        
-        //printf("Stage 4. \n");
         
         // Fill the vectors
         hitsAndFracs_.push_back(hnf);
@@ -198,10 +189,7 @@ double HGCalShowerShapeTools::getRvar(
         return 0;
     }
     
-    if(!energyNorm)
-    {
-        return std::numeric_limits<double>::max();
-    }
+    assert(energyNorm > 0);
     
     double cylinderR2 = cylinderR*cylinderR;
     
@@ -223,7 +211,7 @@ double HGCalShowerShapeTools::getRvar(
         
         double r2 = distXYZ.x()*distXYZ.x() + distXYZ.y()*distXYZ.y();
         
-        // Including the cellSize seems to make the variable less sensitive to the HD/LD transition region
+        // Including the cell size seems to make the variable less sensitive to the HD/LD transition region
         if(useCellSize)
         {
             if(sqrt(r2) > cylinderR+getCellSize(hitId))
