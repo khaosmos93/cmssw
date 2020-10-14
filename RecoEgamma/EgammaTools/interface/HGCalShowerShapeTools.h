@@ -90,7 +90,7 @@ class HGCalShowerShapeTools
     
     void setLayerWiseStuff();
     
-    
+public:    
     struct ShowerWidths
     {
         double sigma2xx;

@@ -38,12 +38,11 @@ float HGCalClusterTools::energyInCone(const float eta,const float phi,
     if(dPhi > maxDR){
       continue;
     }
-     
+
     float dR2 = reco::deltaR2(eta, phi, clus.eta(), clus.phi());
     if(dR2 < minDR2 || dR2 > maxDR2){
       continue;
     }
-    
     switch(eType){
       case EType::ET: 
 	hadValue += clusEt;

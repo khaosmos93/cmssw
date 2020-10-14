@@ -7,9 +7,7 @@ void HGCalShowerShapeTools::initPerEvent(
 )
 {
     
-    edm::ESHandle <CaloGeometry> geom;
-    iSetup.get<CaloGeometryRecord>().get(geom);
-    recHitTools_.setGeometry(*(geom.product()));
+    recHitTools_.getEventSetup(iSetup);
     
     
     setPFRecHitPtrMap(pfRecHits);
