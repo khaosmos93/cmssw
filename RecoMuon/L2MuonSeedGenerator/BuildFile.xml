@@ -15,5 +15,15 @@
 <use name="TrackingTools/KalmanUpdators"/>
 <use name="TrackingTools/TrajectoryParametrization"/>
 <use name="TrackingTools/TrajectoryState"/>
+<use name="Geometry/CommonTopologies"/>
+<use name="DataFormats/SiPixelDetId"/>
+<use name="DataFormats/L1TrackTrigger"/>
+<use name="DataFormats/Phase2TrackerDigi"/>
+<use name="TrackingTools/TrackAssociator"/>
+<use name="SimTracker/TrackerHitAssociation"/>
+<use name="SimTracker/TrackTriggerAssociation"/>
+<use name="SimDataFormats/Associations"/>
+<use name="SimDataFormats/TrackingAnalysis"/>
+<use name="SimTracker/Common"/>
 <use name="clhep"/>
 <flags EDM_PLUGIN="1"/>
