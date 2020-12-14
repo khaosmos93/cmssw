@@ -33,34 +33,28 @@ public:
   static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
   void produce(edm::Event&, const edm::EventSetup&) override;
 
-  class PCAAssocMap{
-    
+  class PCAAssocMap {
   public:
-    PCAAssocMap(double HGCalShowerShapeTools::ShowerWidths::*var,const std::string& name):
-      var_(var),name_(name){}
+    PCAAssocMap(double HGCalShowerShapeTools::ShowerWidths::*var, const std::string& name) : var_(var), name_(name) {}
 
-
-    std::unique_ptr<reco::RecoEcalCandidateIsolationMap>& initMap(const edm::Handle<reco::RecoEcalCandidateCollection>& candHandle){
+    std::unique_ptr<reco::RecoEcalCandidateIsolationMap>& initMap(
+        const edm::Handle<reco::RecoEcalCandidateCollection>& candHandle) {
       assocMap_ = std::make_unique<reco::RecoEcalCandidateIsolationMap>(candHandle);
       return assocMap_;
     }
-    
-    void insert(reco::RecoEcalCandidateRef& ref,
-		const HGCalShowerShapeTools::ShowerWidths& showerWidths){
-      assocMap_->insert(ref,showerWidths.*var_);
+
+    void insert(reco::RecoEcalCandidateRef& ref, const HGCalShowerShapeTools::ShowerWidths& showerWidths) {
+      assocMap_->insert(ref, showerWidths.*var_);
     }
 
-    std::unique_ptr<reco::RecoEcalCandidateIsolationMap>& operator()(){
-      return assocMap_;
-    }
-    const std::string& name()const{return name_;}
+    std::unique_ptr<reco::RecoEcalCandidateIsolationMap>& operator()() { return assocMap_; }
+    const std::string& name() const { return name_; }
 
   private:
     double HGCalShowerShapeTools::ShowerWidths::*var_;
     std::string name_;
     std::unique_ptr<reco::RecoEcalCandidateIsolationMap> assocMap_;
   };
-    
 
 private:
   // ----------member data ---------------------------
@@ -70,34 +64,28 @@ private:
   const edm::EDGetTokenT<reco::RecoEcalCandidateCollection> recoEcalCandidateToken_;
   const edm::EDGetTokenT<reco::PFRecHitCollection> hgcalRecHitToken_;
   const edm::EDGetTokenT<reco::CaloClusterCollection> layerClusterToken_;
-  
-
 };
 
 EgammaHLTHGCalIDVarProducer::EgammaHLTHGCalIDVarProducer(const edm::ParameterSet& config)
-  :   rCylinder_(config.getParameter<double>("rCylinder")),
+    : rCylinder_(config.getParameter<double>("rCylinder")),
       hOverECone_(config.getParameter<double>("hOverECone")),
       recoEcalCandidateToken_(
-	  consumes<reco::RecoEcalCandidateCollection>(config.getParameter<edm::InputTag>("recoEcalCandidateProducer"))),
-      hgcalRecHitToken_(
-	  consumes<reco::PFRecHitCollection>(config.getParameter<edm::InputTag>("hgcalRecHits"))),      
-      layerClusterToken_(
-          consumes<reco::CaloClusterCollection>(config.getParameter<edm::InputTag>("layerClusters")))      
-{
-  
-  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2xx,"sigma2xx"));
-  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2yy,"sigma2yy"));
-  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2zz,"sigma2zz"));
-  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2xy,"sigma2xy"));
-  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2yz,"sigma2yz"));
-  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2zx,"sigma2zx"));
-  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2uu,"sigma2uu"));
-  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2vv,"sigma2vv"));
-  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2ww,"sigma2ww"));
-  
+          consumes<reco::RecoEcalCandidateCollection>(config.getParameter<edm::InputTag>("recoEcalCandidateProducer"))),
+      hgcalRecHitToken_(consumes<reco::PFRecHitCollection>(config.getParameter<edm::InputTag>("hgcalRecHits"))),
+      layerClusterToken_(consumes<reco::CaloClusterCollection>(config.getParameter<edm::InputTag>("layerClusters"))) {
+  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2xx, "sigma2xx"));
+  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2yy, "sigma2yy"));
+  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2zz, "sigma2zz"));
+  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2xy, "sigma2xy"));
+  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2yz, "sigma2yz"));
+  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2zx, "sigma2zx"));
+  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2uu, "sigma2uu"));
+  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2vv, "sigma2vv"));
+  pcaAssocMaps_.emplace_back(PCAAssocMap(&HGCalShowerShapeTools::ShowerWidths::sigma2ww, "sigma2ww"));
+
   produces<reco::RecoEcalCandidateIsolationMap>("rVar");
   produces<reco::RecoEcalCandidateIsolationMap>("hForHOverE");
-  for(auto& var : pcaAssocMaps_){
+  for (auto& var : pcaAssocMaps_) {
     produces<reco::RecoEcalCandidateIsolationMap>(var.name());
   }
 }
@@ -107,7 +95,7 @@ EgammaHLTHGCalIDVarProducer::~EgammaHLTHGCalIDVarProducer() {}
 void EgammaHLTHGCalIDVarProducer::fillDescriptions(edm::ConfigurationDescriptions& descriptions) {
   edm::ParameterSetDescription desc;
   desc.add<edm::InputTag>("recoEcalCandidateProducer", edm::InputTag("hltL1SeededRecoEcalCandidate"));
-  desc.add<edm::InputTag>("hgcalRecHits", edm::InputTag("hgcalRecHits")); 
+  desc.add<edm::InputTag>("hgcalRecHits", edm::InputTag("hgcalRecHits"));
   desc.add<edm::InputTag>("layerClusters", edm::InputTag("layerClusters"));
   desc.add<double>("rCylinder", 2.8);
   desc.add<double>("hOverECone", 0.15);
@@ -115,42 +103,37 @@ void EgammaHLTHGCalIDVarProducer::fillDescriptions(edm::ConfigurationDescription
 }
 
 void EgammaHLTHGCalIDVarProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
-
   auto recoEcalCandHandle = iEvent.getHandle(recoEcalCandidateToken_);
   auto hgcalRecHitHandle = iEvent.getHandle(hgcalRecHitToken_);
   auto layerClustersHandle = iEvent.getHandle(layerClusterToken_);
 
   HGCalShowerShapeTools ssCalc;
-  ssCalc.initPerEvent(iSetup,*hgcalRecHitHandle);
-  
-  auto rVarMap = std::make_unique<reco::RecoEcalCandidateIsolationMap>(recoEcalCandHandle);  
+  ssCalc.initPerEvent(iSetup, *hgcalRecHitHandle);
+
+  auto rVarMap = std::make_unique<reco::RecoEcalCandidateIsolationMap>(recoEcalCandHandle);
   auto hForHoverEMap = std::make_unique<reco::RecoEcalCandidateIsolationMap>(recoEcalCandHandle);
-  for(auto& pcaMap : pcaAssocMaps_){
+  for (auto& pcaMap : pcaAssocMaps_) {
     pcaMap.initMap(recoEcalCandHandle);
   }
-  
-    
-  for(size_t candNr=0;candNr<recoEcalCandHandle->size();candNr++){
-    reco::RecoEcalCandidateRef candRef(recoEcalCandHandle,candNr);
+
+  for (size_t candNr = 0; candNr < recoEcalCandHandle->size(); candNr++) {
+    reco::RecoEcalCandidateRef candRef(recoEcalCandHandle, candNr);
     ssCalc.initPerObject(candRef->superCluster()->hitsAndFractions());
-    rVarMap->insert(candRef,ssCalc.getRvar(rCylinder_,candRef->superCluster()->energy()));
-    
-    float hForHoverE = HGCalClusterTools::hadEnergyInCone(candRef->superCluster()->eta(),
-							  candRef->superCluster()->phi(),
-							  *layerClustersHandle,
-							  0.,hOverECone_,0.,0.);
-    hForHoverEMap->insert(candRef,hForHoverE);
-    auto pcaWidths =  ssCalc.getPCAwidths(rCylinder_);
-    for(auto& pcaMap : pcaAssocMaps_){
-      pcaMap.insert(candRef,pcaWidths);
+    rVarMap->insert(candRef, ssCalc.getRvar(rCylinder_, candRef->superCluster()->energy()));
+
+    float hForHoverE = HGCalClusterTools::hadEnergyInCone(
+        candRef->superCluster()->eta(), candRef->superCluster()->phi(), *layerClustersHandle, 0., hOverECone_, 0., 0.);
+    hForHoverEMap->insert(candRef, hForHoverE);
+    auto pcaWidths = ssCalc.getPCAwidths(rCylinder_);
+    for (auto& pcaMap : pcaAssocMaps_) {
+      pcaMap.insert(candRef, pcaWidths);
     }
   }
-  iEvent.put(std::move(rVarMap),"rVar");
-  iEvent.put(std::move(hForHoverEMap),"hForHOverE");
-  for(auto& pcaMap : pcaAssocMaps_){
-    iEvent.put(std::move(pcaMap()),pcaMap.name());
+  iEvent.put(std::move(rVarMap), "rVar");
+  iEvent.put(std::move(hForHoverEMap), "hForHOverE");
+  for (auto& pcaMap : pcaAssocMaps_) {
+    iEvent.put(std::move(pcaMap()), pcaMap.name());
   }
 }
-
 
 DEFINE_FWK_MODULE(EgammaHLTHGCalIDVarProducer);
