@@ -57,7 +57,6 @@ public:
 
 private:
   edm::InputTag theSource;
-  edm::InputTag theL1GMTReadoutCollection;
   edm::InputTag theOfflineSeedLabel;
   std::string thePropagatorName;
 

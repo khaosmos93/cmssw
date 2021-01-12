@@ -40,7 +40,6 @@ using namespace l1t;
 // constructors
 L2MuonSeedGeneratorFromL1TkMu::L2MuonSeedGeneratorFromL1TkMu(const edm::ParameterSet &iConfig)
     : theSource(iConfig.getParameter<InputTag>("InputObjects")),
-      theL1GMTReadoutCollection(iConfig.getParameter<InputTag>("GMTReadoutCollection")),  // to be removed
       thePropagatorName(iConfig.getParameter<string>("Propagator")),
       theL1MinPt(iConfig.getParameter<double>("L1MinPt")),
       theL1MaxEta(iConfig.getParameter<double>("L1MaxEta")),
@@ -86,7 +85,6 @@ L2MuonSeedGeneratorFromL1TkMu::~L2MuonSeedGeneratorFromL1TkMu() {
 
 void L2MuonSeedGeneratorFromL1TkMu::fillDescriptions(edm::ConfigurationDescriptions &descriptions) {
   edm::ParameterSetDescription desc;
-  desc.add<edm::InputTag>("GMTReadoutCollection", edm::InputTag(""));  // to be removed
   desc.add<edm::InputTag>("InputObjects", edm::InputTag("hltGmtStage2Digis"));
   desc.add<string>("Propagator", "");
   desc.add<double>("L1MinPt", -1.);
