@@ -86,7 +86,7 @@ bool HLTMuonTrkL1TkMuFilter::hltFilter(edm::Event& iEvent,
     check_l1match = false;
   if (check_l1match) {
     iEvent.getByToken(m_previousCandToken, previousLevelCands);
-    previousLevelCands->getObjects(trigger::TriggerL1tkMu, vl1cands);
+    previousLevelCands->getObjects(trigger::TriggerL1TkMu, vl1cands);
     vl1cands_begin = vl1cands.begin();
     vl1cands_end = vl1cands.end();
   }
