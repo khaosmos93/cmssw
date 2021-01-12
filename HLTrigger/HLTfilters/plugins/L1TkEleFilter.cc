@@ -146,7 +146,7 @@ bool L1TkEleFilter::hltFilter(edm::Event& iEvent,
         passIsolation) {
       ntrkEle++;
       l1t::TkElectronRef ref1(l1t::TkElectronRef(tkEles1, distance(atrkEles, itkEle)));
-      filterproduct.addObject(trigger::TriggerObjectType::TriggerL1tkEle, ref1);
+      filterproduct.addObject(trigger::TriggerObjectType::TriggerL1TkEle, ref1);
     }
   }
 
@@ -177,7 +177,7 @@ bool L1TkEleFilter::hltFilter(edm::Event& iEvent,
         passIsolation) {
       ntrkEle++;
       l1t::TkElectronRef ref2(l1t::TkElectronRef(tkEles2, distance(atrkEles, itkEle)));
-      filterproduct.addObject(trigger::TriggerObjectType::TriggerL1tkEle, ref2);
+      filterproduct.addObject(trigger::TriggerObjectType::TriggerL1TkEle, ref2);
     }
   }
 

@@ -103,7 +103,7 @@ bool L1TkMuonFilter::hltFilter(edm::Event& iEvent,
     if (offlinePt >= min_Pt_ && itkMuon->eta() <= max_Eta_ && itkMuon->eta() >= min_Eta_) {
       ntrkmuon++;
       l1t::TkMuonRef ref(l1t::TkMuonRef(tkMuons, distance(atrkmuons, itkMuon)));
-      filterproduct.addObject(trigger::TriggerObjectType::TriggerL1tkMu, ref);
+      filterproduct.addObject(trigger::TriggerObjectType::TriggerL1TkMu, ref);
     }
   }
 
