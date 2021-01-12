@@ -1,21 +1,13 @@
-//-------------------------------------------------
-//
-/**  \class L2MuonSeedGeneratorFromL1TkMu
- * 
+/*  \class L2MuonSeedGeneratorFromL1TkMu
+ *
  *   L2 muon seed generator:
- *   Transform the L1 informations in seeds for the
- *   L2 muon reconstruction
+ *   Transform the L1TkMuon informations in seeds
+ *   for the L2 muon reconstruction
+ *   (mimicking L2MuonSeedGeneratorFromL1T)
  *
- *
- *
- *   \author  A.Everett, R.Bellan, J. Alcaraz
- *
- *    ORCA's author: N. Neumeister 
- *
- *    Modified by M.Oh
+ *    Author: H. Kwon
+ *    Modified by M. Oh
  */
-//
-//--------------------------------------------------
 
 // Class Header
 #include "RecoMuon/L2MuonSeedGenerator/src/L2MuonSeedGeneratorFromL1TkMu.h"
@@ -40,7 +32,6 @@
 #include "RecoMuon/TrackingTools/interface/MuonPatternRecoDumper.h"
 
 #include "DataFormats/Math/interface/LorentzVector.h"
-#include "DataFormats/L1Trigger/interface/Muon.h"
 
 using namespace std;
 using namespace edm;
@@ -53,18 +44,13 @@ L2MuonSeedGeneratorFromL1TkMu::L2MuonSeedGeneratorFromL1TkMu(const edm::Paramete
       thePropagatorName(iConfig.getParameter<string>("Propagator")),
       theL1MinPt(iConfig.getParameter<double>("L1MinPt")),
       theL1MaxEta(iConfig.getParameter<double>("L1MaxEta")),
-      theL1MinQuality(iConfig.getParameter<unsigned int>("L1MinQuality")),
       theMinPtBarrel(iConfig.getParameter<double>("SetMinPtBarrelTo")),
       theMinPtEndcap(iConfig.getParameter<double>("SetMinPtEndcapTo")),
       useOfflineSeed(iConfig.getUntrackedParameter<bool>("UseOfflineSeed", false)),
       useUnassociatedL1(iConfig.getParameter<bool>("UseUnassociatedL1")),
       matchingDR(iConfig.getParameter<std::vector<double>>("MatchDR")),
       etaBins(iConfig.getParameter<std::vector<double>>("EtaMatchingBins"))
-      // centralBxOnly_(iConfig.getParameter<bool>("CentralBxOnly")),
-      // matchType(iConfig.getParameter<unsigned int>("MatchType")),
-      // sortType(iConfig.getParameter<unsigned int>("SortType"))
 {
-  // muCollToken_ = consumes<MuonBxCollection>(theSource);
   muCollToken_ = consumes<l1t::TkMuonCollection>(theSource);
 
   if (useOfflineSeed) {
@@ -105,18 +91,12 @@ void L2MuonSeedGeneratorFromL1TkMu::fillDescriptions(edm::ConfigurationDescripti
   desc.add<string>("Propagator", "");
   desc.add<double>("L1MinPt", -1.);
   desc.add<double>("L1MaxEta", 5.0);
-  desc.add<unsigned int>("L1MinQuality", 0);
   desc.add<double>("SetMinPtBarrelTo", 3.5);
   desc.add<double>("SetMinPtEndcapTo", 1.0);
   desc.addUntracked<bool>("UseOfflineSeed", false);
   desc.add<bool>("UseUnassociatedL1", true);
   desc.add<std::vector<double>>("MatchDR", {0.3});
   desc.add<std::vector<double>>("EtaMatchingBins", {0., 2.5});
-  // desc.add<bool>("CentralBxOnly", true);
-  // desc.add<unsigned int>("MatchType", 0)
-  //     ->setComment(
-  //         "MatchType : 0 Old matching,   1 L1 Order(1to1), 2 Min dR(1to1), 3 Higher Q(1to1), 4 All matched L1");
-  // desc.add<unsigned int>("SortType", 0)->setComment("SortType :  0 not sort,       1 Pt, 2 Q and Pt");
   desc.addUntracked<edm::InputTag>("OfflineSeedLabel", edm::InputTag(""));
 
   edm::ParameterSetDescription psd0;
@@ -141,7 +121,6 @@ void L2MuonSeedGeneratorFromL1TkMu::produce(edm::Event &iEvent, const edm::Event
   vector<int> offlineSeedMap;
   if (useOfflineSeed) {
     iEvent.getByToken(offlineSeedToken_, offlineSeedHandle);
-    // cout << "Number of offline seeds " << offlineSeedHandle->size() << endl;
     offlineSeedMap = vector<int>(offlineSeedHandle->size(), 0);
   }
 
@@ -150,90 +129,62 @@ void L2MuonSeedGeneratorFromL1TkMu::produce(edm::Event &iEvent, const edm::Event
     // L1 tracker track
     auto it = ittkmu->trkPtr();
 
-    int valid_charge = 1;
-
-    // float pt = it->momentum().perp();
-    // float eta = it->momentum().eta();
-    // float theta = 2 * atan(exp(-eta));
-    // float phi = it->momentum().phi();
-    int charge =1;
-    if (it->rInv()<0) charge= -1;
-    // int charge = it->charge();
-    // Set charge=0 for the time being if the valid charge bit is zero
-    if (!valid_charge)
-      charge = 0;
-
     // propagate to GMT
-      auto p3 = it->momentum();
-      float tk_pt = p3.perp();
-      // float tk_p = p3.mag();
-      float tk_eta = p3.eta();
-      float tk_aeta = std::abs(tk_eta);
-      float tk_phi = p3.phi();
-      float tk_q = it->rInv()>0? 1.: -1.;
-      float tk_z  = it->POCA().z();
-      // if (!correctGMTPropForTkZ_) tk_z = 0;
+    auto p3 = it->momentum();
+    float tk_pt = p3.perp();
+    // float tk_p = p3.mag();
+    float tk_eta = p3.eta();
+    float tk_aeta = std::abs(tk_eta);
+    float tk_phi = p3.phi();
+    float tk_q = it->rInv() > 0 ? 1. : -1.;
+    float tk_z = it->POCA().z();
 
-      // L1TkMuonProducer::PropState dest;
-      // if (tk_p<3.5 ) return dest;
-      // if (tk_aeta <1.1 && tk_pt < 3.5) return dest;
-      // if (tk_aeta > 2.5) return dest;
+    // if (tk_p < 3.5 )
+    //   continue;
+    // if (tk_aeta < 1.1 && tk_pt < 3.5)
+    //   continue;
 
-      // //0th order:
-      // dest.valid = true;
+    float dzCorrPhi = 1.;
+    float deta = 0;
+    float etaProp = tk_aeta;
 
-      float dzCorrPhi = 1.;
-      float deta = 0;
-      float etaProp = tk_aeta;
+    if (tk_aeta < 1.1) {
+      etaProp = 1.1;
+      deta = tk_z / 550. / cosh(tk_aeta);
+    } else {
+      float delta = tk_z / 850.;  //roughly scales as distance to 2nd station
+      if (tk_eta > 0)
+        delta *= -1;
+      dzCorrPhi = 1. + delta;
 
-      if (tk_aeta < 1.1){
-        etaProp = 1.1;
-        deta = tk_z/550./cosh(tk_aeta);
-      } else {
-        float delta = tk_z/850.; //roughly scales as distance to 2nd station
-        if (tk_eta > 0) delta *=-1;
-        dzCorrPhi = 1. + delta;
+      float zOzs = tk_z / 850.;
+      if (tk_eta > 0)
+        deta = zOzs / (1. - zOzs);
+      else
+        deta = zOzs / (1. + zOzs);
+      deta = deta * tanh(tk_eta);
+    }
+    float resPhi = tk_phi - 1.464 * tk_q * cosh(1.7) / cosh(etaProp) / tk_pt * dzCorrPhi - M_PI / 144.;
+    resPhi = reco::reduceRange(resPhi);
 
-        float zOzs = tk_z/850.;
-        if (tk_eta > 0) deta = zOzs/(1. - zOzs);
-        else deta = zOzs/(1.+zOzs);
-        deta = deta*tanh(tk_eta);
-      }
-      float resPhi = tk_phi - 1.464*tk_q*cosh(1.7)/cosh(etaProp)/tk_pt*dzCorrPhi - M_PI/144.;
-      if (resPhi > M_PI) resPhi -= 2.*M_PI;
-      if (resPhi < -M_PI) resPhi += 2.*M_PI;
+    float pt = tk_pt;  //not corrected for eloss
+    float eta = tk_eta + deta;
+    float theta = 2 * atan(exp(-eta));
+    float phi = resPhi;
+    int charge = it->rInv() > 0 ? 1 : -1;
 
-      float eta = tk_eta + deta;
-      float phi = resPhi;
-      float pt = tk_pt; //not corrected for eloss
-
-      float theta = 2 * atan(exp(-eta));
-
-    // link number indices of the optical fibres that connect the uGMT with the track finders
-    //EMTF+ : 36-41, OMTF+ : 42-47, BMTF : 48-59, OMTF- : 60-65, EMTF- : 66-71
-    // int link = 36 + (int)(it->tfMuonIndex() / 3.);
-    // bool barrel = true;
-    // if ((link >= 36 && link <= 41) || (link >= 66 && link <= 71))
-    //   barrel = false;
-
-    bool barrel = true;
-    if(fabs(eta)>1.1 ) barrel = false;
+    bool barrel = tk_aeta < 1.1 ? true : false;
 
     if (pt < theL1MinPt || fabs(eta) > theL1MaxEta)
       continue;
 
-    // LogDebug(metname) << "New L2 Muon Seed";
-    // LogDebug(metname) << "Pt = " << pt << " GeV/c";
-    // LogDebug(metname) << "eta = " << eta;
-    // LogDebug(metname) << "theta = " << theta << " rad";
-    // LogDebug(metname) << "phi = " << phi << " rad";
-    // LogDebug(metname) << "charge = " << charge;
-    // LogDebug(metname) << "In Barrel? = " << barrel;
-
-    // if (quality <= theL1MinQuality)
-    //   continue;
-    // LogDebug(metname) << "quality = " << quality;
-    // cout<< "debug 1" <<endl;
+    LogDebug(metname) << "New L2 Muon Seed";
+    LogDebug(metname) << "Pt = " << pt << " GeV/c";
+    LogDebug(metname) << "eta = " << eta;
+    LogDebug(metname) << "theta = " << theta << " rad";
+    LogDebug(metname) << "phi = " << phi << " rad";
+    LogDebug(metname) << "charge = " << charge;
+    LogDebug(metname) << "In Barrel? = " << barrel;
 
     // Update the services
     theService->update(iSetup);
@@ -261,7 +212,6 @@ void L2MuonSeedGeneratorFromL1TkMu::produce(edm::Event &iEvent, const edm::Event
       radius = fabs(bc->radius() / sin(theta));
 
       LogDebug(metname) << "radius " << radius;
-      // cout<< "debug 2" <<endl;
 
       if (pt < theMinPtBarrel)
         pt = theMinPtBarrel;
@@ -293,10 +243,6 @@ void L2MuonSeedGeneratorFromL1TkMu::produce(edm::Event &iEvent, const edm::Event
     if (!barrel)
       mat[0][0] = (0.4 / pt) * (0.4 / pt);
 
-    //Assign q/pt = 0 +- 1/pt if charge has been declared invalid
-    if (!valid_charge)
-      mat[0][0] = (1. / pt) * (1. / pt);
-
     mat[1][1] = 0.05 * 0.05;  // sigma^2(lambda)
     mat[2][2] = 0.2 * 0.2;    // sigma^2(phi)
     mat[3][3] = 20. * 20.;    // sigma^2(x_transverse))
@@ -317,8 +263,6 @@ void L2MuonSeedGeneratorFromL1TkMu::produce(edm::Event &iEvent, const edm::Event
     LogDebug(metname) << debug.dumpLayer(detLayer);
     LogDebug(metname) << debug.dumpTSOS(tsos);
 
-    // cout<< "debug 3" <<endl;
-
     double dRcone = matchingDR[0];
     if (fabs(eta) < etaBins.back()) {
       std::vector<double>::iterator lowEdge = std::upper_bound(etaBins.begin(), etaBins.end(), fabs(eta));
@@ -328,60 +272,23 @@ void L2MuonSeedGeneratorFromL1TkMu::produce(edm::Event &iEvent, const edm::Event
     if (tsos.isValid()) {
       edm::OwnVector<TrackingRecHit> container;
 
-      if (useOfflineSeed && (!valid_charge || charge == 0)) {
-        const TrajectorySeed *assoOffseed =
-            associateOfflineSeedToL1(offlineSeedHandle, offlineSeedMap, tsos, dRcone);
-
-        if (assoOffseed != nullptr) {
-          // cout<< "debug 4" <<endl;
-          PTrajectoryStateOnDet const &seedTSOS = assoOffseed->startingState();
-          TrajectorySeed::const_iterator tsci = assoOffseed->recHits().first, tscie = assoOffseed->recHits().second;
-          for (; tsci != tscie; ++tsci) {
-            container.push_back(*tsci);
-          }
-          auto dummyRef = edm::Ref<MuonBxCollection>();
-          output->push_back(
-              L2MuonTrajectorySeed(seedTSOS,
-                                   container,
-                                   alongMomentum,
-                                   dummyRef));
-                                   // MuonRef(muColl, distance(muColl->begin(0), muColl->begin(0)))));
-        } else {
-          if (useUnassociatedL1) {
-            // convert the TSOS into a PTSOD
-            PTrajectoryStateOnDet const &seedTSOS = trajectoryStateTransform::persistentState(tsos, theid.rawId());
-            auto dummyRef = edm::Ref<MuonBxCollection>();
-            output->push_back(
-                L2MuonTrajectorySeed(seedTSOS,
-                                     container,
-                                     alongMomentum,
-                                     dummyRef));
-                                     // MuonRef(muColl, distance(muColl->begin(0), muColl->begin(0)))));
-          }
-        }
-      } else if (useOfflineSeed && valid_charge) {
-        // cout<< "debug 5" <<endl;
+      if (useOfflineSeed) {
         // Get the compatible dets on the layer
         std::vector<pair<const GeomDet *, TrajectoryStateOnSurface>> detsWithStates =
             detLayer->compatibleDets(tsos, *theService->propagator(thePropagatorName), *theEstimator);
 
         if (detsWithStates.empty() && barrel) {
-          // continue;
-          // cout<< "debug 5.1" <<endl;
           // Fallback solution using ME2, try again to propagate but using ME2 as reference
           DetId fallback_id;
           theta < Geom::pi() / 2. ? fallback_id = CSCDetId(1, 2, 0, 0, 0) : fallback_id = CSCDetId(2, 2, 0, 0, 0);
           const DetLayer *ME2DetLayer = theService->detLayerGeometry()->idToLayer(fallback_id);
 
           tsos = theService->propagator(thePropagatorName)->propagate(state, ME2DetLayer->surface());
-          // cout<< "debug 5.1.1" <<endl;
           detsWithStates =
               ME2DetLayer->compatibleDets(tsos, *theService->propagator(thePropagatorName), *theEstimator);
-          // cout<< "debug 5.1.2" <<endl;
         }
 
         if (!detsWithStates.empty()) {
-          // cout<< "debug 5.2" <<endl;
           TrajectoryStateOnSurface newTSOS = detsWithStates.front().second;
           const GeomDet *newTSOSDet = detsWithStates.front().first;
 
@@ -400,7 +307,6 @@ void L2MuonSeedGeneratorFromL1TkMu::produce(edm::Event &iEvent, const edm::Event
                 associateOfflineSeedToL1(offlineSeedHandle, offlineSeedMap, newTSOS, dRcone);
 
             if (assoOffseed != nullptr) {
-              // cout<< "debug 6" <<endl;
               PTrajectoryStateOnDet const &seedTSOS = assoOffseed->startingState();
               TrajectorySeed::const_iterator tsci = assoOffseed->recHits().first,
                                              tscie = assoOffseed->recHits().second;
@@ -413,7 +319,6 @@ void L2MuonSeedGeneratorFromL1TkMu::produce(edm::Event &iEvent, const edm::Event
                                        container,
                                        alongMomentum,
                                        dummyRef));
-                                       // MuonRef(muColl, distance(muColl->begin(0), muColl->begin(0)))));
             } else {
               if (useUnassociatedL1) {
                 // convert the TSOS into a PTSOD
@@ -425,7 +330,6 @@ void L2MuonSeedGeneratorFromL1TkMu::produce(edm::Event &iEvent, const edm::Event
                                          container,
                                          alongMomentum,
                                          dummyRef));
-                                         // MuonRef(muColl, distance(muColl->begin(0), muColl->begin(0)))));
               }
             }
           }
@@ -439,7 +343,6 @@ void L2MuonSeedGeneratorFromL1TkMu::produce(edm::Event &iEvent, const edm::Event
                                  container,
                                  alongMomentum,
                                  dummyRef));
-                                 // MuonRef(muColl, distance(muColl->begin(0), muColl->begin(0)))));
       }
     }
   }

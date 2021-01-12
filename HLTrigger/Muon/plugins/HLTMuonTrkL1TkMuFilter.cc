@@ -36,9 +36,6 @@ HLTMuonTrkL1TkMuFilter::HLTMuonTrkL1TkMuFilter(const edm::ParameterSet& iConfig)
   m_minMuonHits = iConfig.getParameter<int>("minMuonHits");
   m_minMuonStations = iConfig.getParameter<int>("minMuonStations");
   m_maxNormalizedChi2 = iConfig.getParameter<double>("maxNormalizedChi2");
-  // m_allowedTypeMask = iConfig.getParameter<unsigned int>("allowedTypeMask");
-  // m_requiredTypeMask = iConfig.getParameter<unsigned int>("requiredTypeMask");
-  // m_trkMuonId = muon::SelectionType(iConfig.getParameter<unsigned int>("trkMuonId"));
   m_minPt = iConfig.getParameter<double>("minPt");
   m_minN = iConfig.getParameter<unsigned int>("minN");
   m_maxAbsEta = iConfig.getParameter<double>("maxAbsEta");
@@ -54,8 +51,6 @@ void HLTMuonTrkL1TkMuFilter::fillDescriptions(edm::ConfigurationDescriptions& de
   desc.add<int>("minMuonHits", -1);
   desc.add<int>("minMuonStations", -1);
   desc.add<double>("maxNormalizedChi2", 1e99);
-  // desc.add<unsigned int>("allowedTypeMask", 255);
-  // desc.add<unsigned int>("requiredTypeMask", 0);
   desc.add<unsigned int>("trkMuonId", 0);
   desc.add<double>("minPt", 24);
   desc.add<unsigned int>("minN", 1);
@@ -107,11 +102,6 @@ bool HLTMuonTrkL1TkMuFilter::hltFilter(edm::Event& iEvent,
         continue;
     }
 
-    // if ((muon.type() & m_allowedTypeMask) == 0)
-    //   continue;
-    // if ((muon.type() & m_requiredTypeMask) != m_requiredTypeMask)
-    //   continue;
-
     if (muon.numberOfMatchedStations() < m_minMuonStations)
       continue;
 
@@ -126,9 +116,6 @@ bool HLTMuonTrkL1TkMuFilter::hltFilter(edm::Event& iEvent,
       if (muon.globalTrack()->hitPattern().numberOfValidMuonHits() < m_minMuonHits)
         continue;
     }
-
-    // if (muon.isTrackerMuon() && !muon::isGoodMuon(muon, m_trkMuonId))
-    //   continue;
 
     if (muon.pt() < m_minPt)
       continue;

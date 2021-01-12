@@ -17,8 +17,6 @@
 <use name="TrackingTools/TrajectoryState"/>
 <use name="TrackingTools/TrackAssociator"/>
 <use name="Geometry/CommonTopologies"/>
-<use name="DataFormats/SiPixelDetId"/>
 <use name="DataFormats/L1TrackTrigger"/>
-<use name="DataFormats/Phase2TrackerDigi"/>
 <use name="clhep"/>
 <flags EDM_PLUGIN="1"/>

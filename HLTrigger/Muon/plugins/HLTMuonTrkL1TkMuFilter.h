@@ -1,6 +1,6 @@
 #ifndef HLTMuonTrkL1TkMuFilter_h
 #define HLTMuonTrkL1TkMuFilter_h
-// author D. Olivito
+
 #include "HLTrigger/HLTcore/interface/HLTFilter.h"
 #include "DataFormats/RecoCandidate/interface/RecoChargedCandidateFwd.h"
 #include "DataFormats/MuonReco/interface/MuonFwd.h"
@@ -34,13 +34,10 @@ private:
   int m_minTrkHits;
   int m_minMuonHits;
   int m_minMuonStations;
-  // unsigned int m_allowedTypeMask;
-  // unsigned int m_requiredTypeMask;
   double m_maxNormalizedChi2;
   double m_minPt;
   unsigned int m_minN;
   double m_maxAbsEta;
-  // muon::SelectionType m_trkMuonId;
   bool m_saveTags;
 };
 

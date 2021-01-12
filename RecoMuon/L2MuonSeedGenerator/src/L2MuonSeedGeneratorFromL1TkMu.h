@@ -1,24 +1,16 @@
 #ifndef RecoMuon_L2MuonSeedGenerator_L2MuonSeedGeneratorFromL1TkMu_H
 #define RecoMuon_L2MuonSeedGenerator_L2MuonSeedGeneratorFromL1TkMu_H
 
-//-------------------------------------------------
-//
-/**  \class L2MuonSeedGeneratorFromL1T
- * 
+/*  \class L2MuonSeedGeneratorFromL1TkMu
+ *
  *   L2 muon seed generator:
- *   Transform the L1 informations in seeds for the
- *   L2 muon reconstruction
+ *   Transform the L1TkMuon informations in seeds
+ *   for the L2 muon reconstruction
+ *   (mimicking L2MuonSeedGeneratorFromL1T)
  *
- *
- *
- *   \author  A.Everett, R.Bellan
- *
- *    ORCA's author: N. Neumeister 
- *
- *    Modified by M.Oh
+ *    Author: H. Kwon
+ *    Modified by M. Oh
  */
-//L2MuonSeedGeneratorFromL1T
-//--------------------------------------------------
 
 #include "FWCore/Framework/interface/stream/EDProducer.h"
 #include "FWCore/Utilities/interface/InputTag.h"
@@ -33,11 +25,6 @@
 #include "DataFormats/GeometrySurface/interface/BoundCylinder.h"
 #include "DataFormats/Math/interface/deltaR.h"
 #include "DataFormats/L1Trigger/interface/Muon.h"
-
-#include "DataFormats/L1TrackTrigger/interface/TTTypes.h"
-#include "DataFormats/L1TrackTrigger/interface/TTCluster.h"
-#include "DataFormats/L1TrackTrigger/interface/TTStub.h"
-#include "DataFormats/L1TrackTrigger/interface/TTTrack.h"
 
 #include "DataFormats/L1TCorrelator/interface/TkMuon.h"
 #include "DataFormats/L1TCorrelator/interface/TkMuonFwd.h"
@@ -74,24 +61,17 @@ private:
   edm::InputTag theOfflineSeedLabel;
   std::string thePropagatorName;
 
-  // edm::EDGetTokenT<l1t::MuonBxCollection> muCollToken_;
   edm::EDGetTokenT<l1t::TkMuonCollection> muCollToken_;
   edm::EDGetTokenT<edm::View<TrajectorySeed> > offlineSeedToken_;
 
   const double theL1MinPt;
   const double theL1MaxEta;
-  const unsigned theL1MinQuality;
   const double theMinPtBarrel;
   const double theMinPtEndcap;
   const bool useOfflineSeed;
   const bool useUnassociatedL1;
   std::vector<double> matchingDR;
   std::vector<double> etaBins;
-
-  /// use central bx only muons
-  // bool centralBxOnly_;
-  // const unsigned matchType;
-  // const unsigned sortType;
 
   /// the event setup proxy, it takes care the services update
   MuonServiceProxy *theService;
