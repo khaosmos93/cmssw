@@ -46,8 +46,6 @@ void HLT2L1TkMuonL1TkMuonMuRefDR::fillDescriptions(edm::ConfigurationDescription
   desc.add<std::vector<edm::InputTag>>("originTag2", originTag2);
   desc.add<edm::InputTag>("inputTag1", edm::InputTag("hltFiltered1"));
   desc.add<edm::InputTag>("inputTag2", edm::InputTag("hltFiltered2"));
-  desc.add<int>("triggerType1", 0);
-  desc.add<int>("triggerType2", 0);
   desc.add<double>("MinDR", -1.0);
   desc.add<int>("MinN", 1);
 
