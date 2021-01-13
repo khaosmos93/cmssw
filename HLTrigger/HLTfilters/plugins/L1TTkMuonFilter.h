@@ -44,7 +44,15 @@ private:
   std::vector<double> overlapScalings_;  // overlap scalings
   std::vector<double> endcapScalings_;   // endcap scalings
 
+  bool applyBarrelQual_;
+  bool applyOverlapQual_;
+  bool applyEndcapQual_;
+  std::vector<unsigned int> barrelQualities_;
+  std::vector<unsigned int> overlapQualities_;
+  std::vector<unsigned int> endcapQualities_;
+
   double TkMuonOfflineEt(double Et, double Eta) const;
+  bool TkMuonQualityCut(unsigned int MuonDet, unsigned int Qual) const;
 };
 
 #endif  //L1TTkMuonFilter_h

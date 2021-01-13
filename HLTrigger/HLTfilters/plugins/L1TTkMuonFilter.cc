@@ -38,6 +38,13 @@ L1TTkMuonFilter::L1TTkMuonFilter(const edm::ParameterSet& iConfig)
   barrelScalings_ = scalings_.getParameter<std::vector<double> >("barrel");
   overlapScalings_ = scalings_.getParameter<std::vector<double> >("overlap");
   endcapScalings_ = scalings_.getParameter<std::vector<double> >("endcap");
+
+  applyBarrelQual_ = iConfig.getParameter<bool>("ApplyBarrelQual");
+  applyOverlapQual_ = iConfig.getParameter<bool>("ApplyOverlapQual");
+  applyEndcapQual_ = iConfig.getParameter<bool>("ApplyEndcapQual");
+  barrelQualities_ = iConfig.getParameter<std::vector<unsigned int> >("BarrelQualities");
+  overlapQualities_ = iConfig.getParameter<std::vector<unsigned int> >("OverlapQualities");
+  endcapQualities_ = iConfig.getParameter<std::vector<unsigned int> >("EndcapQualities");
 }
 
 L1TTkMuonFilter::~L1TTkMuonFilter() = default;
@@ -60,6 +67,13 @@ void L1TTkMuonFilter::fillDescriptions(edm::ConfigurationDescriptions& descripti
   descScalings.add<std::vector<double> >("overlap", {0.0, 1.0, 0.0});
   descScalings.add<std::vector<double> >("endcap", {0.0, 1.0, 0.0});
   desc.add<edm::ParameterSetDescription>("Scalings", descScalings);
+
+  desc.add<bool>("ApplyBarrelQual", false);
+  desc.add<bool>("ApplyOverlapQual", false);
+  desc.add<bool>("ApplyEndcapQual", true);
+  desc.add<std::vector<unsigned int> >("BarrelQualities", {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
+  desc.add<std::vector<unsigned int> >("OverlapQualities", {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
+  desc.add<std::vector<unsigned int> >("EndcapQualities", {11, 13, 14, 15});
 
   descriptions.add("L1TTkMuonFilter", desc);
 }
@@ -94,6 +108,10 @@ bool L1TTkMuonFilter::hltFilter(edm::Event& iEvent,
   auto otrkmuons(tkMuons->end());
   TkMuonCollection::const_iterator itkMuon;
   for (itkMuon = atrkmuons; itkMuon != otrkmuons; itkMuon++) {
+
+    if (!TkMuonQualityCut(itkMuon->muonDetector(), itkMuon->quality()))
+      continue;
+
     double offlinePt = this->TkMuonOfflineEt(itkMuon->pt(), itkMuon->eta());
     if (offlinePt >= min_Pt_ && itkMuon->eta() <= max_Eta_ && itkMuon->eta() >= min_Eta_) {
       ntrkmuon++;
@@ -114,4 +132,42 @@ double L1TTkMuonFilter::TkMuonOfflineEt(double Et, double Eta) const {
     return (overlapScalings_.at(0) + Et * overlapScalings_.at(1) + Et * Et * overlapScalings_.at(2));
   else
     return (endcapScalings_.at(0) + Et * endcapScalings_.at(1) + Et * Et * endcapScalings_.at(2));
+}
+
+bool L1TTkMuonFilter::TkMuonQualityCut(unsigned int MuonDet, unsigned int Qual) const {
+
+  if ( MuonDet != 1 && MuonDet != 2 && MuonDet != 3 ) {
+    throw cms::Exception("L1TTkMuonFilter|TkMuonQualityCut")
+      << "invalid muon detector region: "
+      << MuonDet << " (this should never happen)\n";
+    return false;
+  }
+
+  bool passQual = false;
+  if (applyBarrelQual_ && MuonDet == 1) {
+    for (auto& q: barrelQualities_) {
+      if (q == Qual) {
+        passQual = true;
+        break;
+      }
+    }
+  }
+  if (!passQual && applyOverlapQual_ && MuonDet == 2) {
+    for (auto& q: overlapQualities_) {
+      if (q == Qual) {
+        passQual = true;
+        break;
+      }
+    }
+  }
+  if (!passQual && applyEndcapQual_ && MuonDet == 3) {
+    for (auto& q: endcapQualities_) {
+      if (q == Qual) {
+        passQual = true;
+        break;
+      }
+    }
+  }
+
+  return passQual;
 }
