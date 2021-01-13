@@ -143,8 +143,15 @@ bool L1TTkMuonFilter::TkMuonQualityCut(unsigned int MuonDet, unsigned int Qual) 
     return false;
   }
 
+  if(!applyBarrelQual_ && MuonDet == 1)
+    return true;
+  if(!applyOverlapQual_ && MuonDet == 2)
+    return true;
+  if(!applyEndcapQual_ && MuonDet == 3)
+    return true;
+
   bool passQual = false;
-  if (applyBarrelQual_ && MuonDet == 1) {
+  if (MuonDet == 1) {
     for (auto& q: barrelQualities_) {
       if (q == Qual) {
         passQual = true;
@@ -152,7 +159,7 @@ bool L1TTkMuonFilter::TkMuonQualityCut(unsigned int MuonDet, unsigned int Qual) 
       }
     }
   }
-  if (!passQual && applyOverlapQual_ && MuonDet == 2) {
+  else if (MuonDet == 2) {
     for (auto& q: overlapQualities_) {
       if (q == Qual) {
         passQual = true;
@@ -160,7 +167,7 @@ bool L1TTkMuonFilter::TkMuonQualityCut(unsigned int MuonDet, unsigned int Qual) 
       }
     }
   }
-  if (!passQual && applyEndcapQual_ && MuonDet == 3) {
+  else {
     for (auto& q: endcapQualities_) {
       if (q == Qual) {
         passQual = true;
