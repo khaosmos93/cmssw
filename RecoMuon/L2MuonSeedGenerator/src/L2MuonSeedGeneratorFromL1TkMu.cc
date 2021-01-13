@@ -45,6 +45,8 @@ L2MuonSeedGeneratorFromL1TkMu::L2MuonSeedGeneratorFromL1TkMu(const edm::Paramete
       theL1MaxEta(iConfig.getParameter<double>("L1MaxEta")),
       theMinPtBarrel(iConfig.getParameter<double>("SetMinPtBarrelTo")),
       theMinPtEndcap(iConfig.getParameter<double>("SetMinPtEndcapTo")),
+      theMinPL1Tk(iConfig.getParameter<double>("MinPL1Tk")),
+      theMinPtL1TkBarrel(iConfig.getParameter<double>("MinPtL1TkBarrel")),
       useOfflineSeed(iConfig.getUntrackedParameter<bool>("UseOfflineSeed", false)),
       useUnassociatedL1(iConfig.getParameter<bool>("UseUnassociatedL1")),
       matchingDR(iConfig.getParameter<std::vector<double>>("MatchDR")),
@@ -91,6 +93,8 @@ void L2MuonSeedGeneratorFromL1TkMu::fillDescriptions(edm::ConfigurationDescripti
   desc.add<double>("L1MaxEta", 5.0);
   desc.add<double>("SetMinPtBarrelTo", 3.5);
   desc.add<double>("SetMinPtEndcapTo", 1.0);
+  desc.add<double>("MinPL1Tk", 3.5);
+  desc.add<double>("MinPtL1TkBarrel", 3.5);
   desc.addUntracked<bool>("UseOfflineSeed", false);
   desc.add<bool>("UseUnassociatedL1", true);
   desc.add<std::vector<double>>("MatchDR", {0.3});
@@ -130,17 +134,17 @@ void L2MuonSeedGeneratorFromL1TkMu::produce(edm::Event &iEvent, const edm::Event
     // propagate to GMT
     auto p3 = it->momentum();
     float tk_pt = p3.perp();
-    // float tk_p = p3.mag();
+    float tk_p = p3.mag();
     float tk_eta = p3.eta();
     float tk_aeta = std::abs(tk_eta);
     float tk_phi = p3.phi();
     float tk_q = it->rInv() > 0 ? 1. : -1.;
     float tk_z = it->POCA().z();
 
-    // if (tk_p < 3.5 )
-    //   continue;
-    // if (tk_aeta < 1.1 && tk_pt < 3.5)
-    //   continue;
+    if (tk_p < theMinPL1Tk)
+      continue;
+    if (tk_aeta < 1.1 && tk_pt < theMinPtL1TkBarrel)
+      continue;
 
     float dzCorrPhi = 1.;
     float deta = 0;

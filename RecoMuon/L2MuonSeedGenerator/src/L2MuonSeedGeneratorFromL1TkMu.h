@@ -67,6 +67,8 @@ private:
   const double theL1MaxEta;
   const double theMinPtBarrel;
   const double theMinPtEndcap;
+  const double theMinPL1Tk;
+  const double theMinPtL1TkBarrel;
   const bool useOfflineSeed;
   const bool useUnassociatedL1;
   std::vector<double> matchingDR;
