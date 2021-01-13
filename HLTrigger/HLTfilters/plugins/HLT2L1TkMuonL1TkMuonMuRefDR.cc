@@ -110,7 +110,7 @@ bool HLT2L1TkMuonL1TkMuonMuRefDR::computeDR(edm::Event& iEvent,
   float muRef1_eta = 0.;
   float muRef1_phi = 0.;
   if (r1->muonDetector() != 3) {
-    if(r1->muRef().isNonnull())
+    if(r1->muRef().isNull())
       return false;
 
     muRef1_eta = r1->muRef()->hwEta() * 0.010875;
@@ -121,7 +121,7 @@ bool HLT2L1TkMuonL1TkMuonMuRefDR::computeDR(edm::Event& iEvent,
     muRef1_phi = muRef1_phi * 2. * M_PI / 576.;
   }
   else {
-    if(r1->emtfTrk().isNonnull())
+    if(r1->emtfTrk().isNull())
       return false;
 
     muRef1_eta = r1->emtfTrk()->Eta();
@@ -132,7 +132,7 @@ bool HLT2L1TkMuonL1TkMuonMuRefDR::computeDR(edm::Event& iEvent,
   float muRef2_eta = 0.;
   float muRef2_phi = 0.;
   if (r2->muonDetector() != 3) {
-    if(r2->muRef().isNonnull())
+    if(r2->muRef().isNull())
       return false;
 
     muRef2_eta = r2->muRef()->hwEta() * 0.010875;
@@ -143,7 +143,7 @@ bool HLT2L1TkMuonL1TkMuonMuRefDR::computeDR(edm::Event& iEvent,
     muRef2_phi = muRef2_phi * 2. * M_PI / 576.;
   }
   else {
-    if(r2->emtfTrk().isNonnull())
+    if(r2->emtfTrk().isNull())
       return false;
 
     muRef2_eta = r2->emtfTrk()->Eta();
@@ -151,10 +151,10 @@ bool HLT2L1TkMuonL1TkMuonMuRefDR::computeDR(edm::Event& iEvent,
   }
   muRef2_phi = reco::reduceRange(muRef2_phi);
 
-  if (reco::deltaR(muRef1_eta, muRef1_phi, muRef2_eta, muRef2_phi) < minDR_)
-    return false;
+  if (reco::deltaR(muRef1_eta, muRef1_phi, muRef2_eta, muRef2_phi) > minDR_)
+    return true;
 
-  return true;
+  return false;
 }
 
 
