@@ -479,7 +479,7 @@ process.load("HLT_75e33/paths/HLT_Photon108EB_TightID_TightIso_L1Seeded_v1_cfi")
 process.load("HLT_75e33/paths/HLT_Photon187_L1Seeded_v1_cfi")
 process.load("HLT_75e33/paths/HLT_DoubleEle25_CaloIdL_PMS2_L1Seeded_v1_cfi")
 process.load("HLT_75e33/paths/HLT_Diphoton30_23_IsoCaloId_L1Seeded_v1_cfi")
-process.load("HLT_75e33/paths/L1_DoubleTkMuon_17_8_cfi")
+process.load("HLT_75e33/paths/L1_DoubleTkMuon_15_7_cfi")
 process.load("HLT_75e33/paths/L1_SingleTkMuon_22_cfi")
 process.load("HLT_75e33/paths/L1_TripleTkMuon_5_3_3_cfi")
 process.load("HLT_75e33/paths/L1simulation_step_cfi")
@@ -627,7 +627,7 @@ process.schedule = cms.Schedule(*[
 
     # Muons L1T paths
     process.L1_SingleTkMuon_22,
-    process.L1_DoubleTkMuon_17_8,
+    process.L1_DoubleTkMuon_15_7,
     process.L1_TripleTkMuon_5_3_3,
 
     # Muons HLT paths
